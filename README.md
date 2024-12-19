@@ -14,8 +14,7 @@ Welcome to the Paleto Bay Roleplay Script, where developers collaborate to enhan
 
 
 >
-# Credits<br>
-Thanks to rootcause for [Command Registry](https://rage.mp/files/file/375-improved-commands/) & [v-bettertorso](https://github.com/root-cause/v-besttorso)<br>
+<br>
 
 # Current Features
  - Account system (Login/Register).
