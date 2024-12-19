@@ -1,6 +1,6 @@
 # PALETO BAY ROLEPLAY
 
-Welcome to the Paleto Bay Roleplay Script, where developers collaborate to enhance and maintain our RAGE multiplayer roleplay server.
+A custom RageMP server offering immersive roleplay in Paleto Bay.
 
 # Built in
 >
