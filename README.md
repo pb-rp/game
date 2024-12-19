@@ -14,15 +14,3 @@ Welcome to the Paleto Bay Roleplay Script, where developers collaborate to enhan
 
 
 >
-<br>
-
-# Current Features
- - Account system (Login/Register).
- - Character System (3 Available slots to create)
- - Inventory system.
- - HUD & Player data.
- - Notification system
- - Chat System
- - Command system
- - Radial Interactive Menu
- #
