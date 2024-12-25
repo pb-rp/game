@@ -42,7 +42,7 @@ export const AuthForm: FC<{ setForm: (page: string) => void }> = ({ setForm }) =
             </form>
             <div className={style.footer}>
                 Don't have an account?
-                <span onClick={() => setForm("reg")}>Register now!</span>
+                <span>Register on our UCP!</span>
             </div>
         </div>
     );
