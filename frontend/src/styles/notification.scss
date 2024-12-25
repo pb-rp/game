@@ -1,4 +1,4 @@
-@use "./vars";
+@import "./vars";
 
 :root {
     --toastify-color-light: #fff;
@@ -43,7 +43,6 @@
 .Toastify__toast-container {
     z-index: var(--toastify-z-index);
     -webkit-transform: translate3d(0, 0, var(--toastify-z-index));
-    transform: translate3d(0, 0, var(--toastify-z-index));
     position: fixed;
     padding: 0.37037037037037035vh;
     width: var(--toastify-toast-width);

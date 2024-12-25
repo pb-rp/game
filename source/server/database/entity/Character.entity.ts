@@ -120,7 +120,7 @@ export class CharacterEntity {
         if (player.character.deathState === RageShared.Players.Enums.DEATH_STATES.STATE_INJURED) {
             setPlayerToInjuredState(player);
         }
-        player.outputChatBox(`Welcome to !{red}RAGEMP ROLEPLAY!{white} ${player.name}!`);
+        player.outputChatBox(`Welcome to !{green}Paleto Bay Roleplay!{white} ${player.name}!`);
         if (player.character.adminlevel) {
             player.outputChatBox(`>>> You are logged in as !{green}LEVEL ${player.character.adminlevel}!{white} admin!`);
         }

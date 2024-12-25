@@ -1,4 +1,8 @@
 .creator {
+	* {
+		outline: none;
+	}
+
 	width: 100vw;
 	height: 100vh;
 	font-family: Arial,
@@ -8,11 +12,6 @@
 	color: black;
 	opacity: 1;
 	transition: opacity 0.2s;
-	
-	* {
-		outline: none;
-	}
-
 
 	.content {
 		width: 70%;

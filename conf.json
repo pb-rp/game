@@ -6,6 +6,5 @@
 	"announce": false,
 	"allow-cef-debugging": true,
 	"csharp": "disabled",
-	"enable-nodejs": "true",
 	"port": 22005
 }
