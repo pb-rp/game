@@ -79,3 +79,23 @@ RAGERP.commands.add({
         player.setVariable("hasReport", { report: fulltext });
     }
 })
+
+RAGERP.commands.add({
+    name: "time",
+    description: "Check time",
+    run: (player: PlayerMp) => {
+        player.setEmoteText([194, 162, 218, 255], `* checks the time`, 7);
+        const formattedTime = new Date().toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true,
+          });
+
+          Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.NAVYBLUE}(Date and Time): ${formattedTime}.`);
+
+    }
+})
