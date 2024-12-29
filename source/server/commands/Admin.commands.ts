@@ -75,12 +75,12 @@ RAGERP.commands.add({
         const adminCommandsByLevel: { [level: number]: string[] } = {};
 
         const adminLevels: { [key: number]: string } = {
-            1: "!{#14AA0B}LEVEL 1",
-            2: "!{#14AA0B}LEVEL 2",
-            3: "!{#14AA0B}LEVEL 3",
-            4: "!{#0C66D8}LEVEL 4",
-            5: "!{#0C66D8}LEVEL 5",
-            6: "!{#fa0339}LEVEL 6"
+            1: `!{#${RageShared.Enums.HEXCOLORS.LIGHTGREEN}}[Admin Level 1]`,
+            2: `!{#${RageShared.Enums.HEXCOLORS.LIGHTGREEN}}[Admin Level 2]`,
+            3: `!{#${RageShared.Enums.HEXCOLORS.LIGHTGREEN}}[Admin Level 3]`,
+            4: `!{#${RageShared.Enums.HEXCOLORS.GREEN}}[Admin Level 4]`,
+            5: `!{#${RageShared.Enums.HEXCOLORS.GREEN}}[Admin Level 5]`,
+            6: `!{#${RageShared.Enums.HEXCOLORS.GREEN}}[Admin Level 6]`
         };
 
         RAGERP.commands
@@ -104,7 +104,7 @@ RAGERP.commands.add({
                     const endIndex = Math.min(i + itemsPerLog, commands.length);
                     const currentItems = commands.slice(i, endIndex);
 
-                    Chat.Message(player, `${adminLevels[level]}!: {white}${currentItems.join(", ")}`);
+                    Chat.Message(player, `${adminLevels[level]}: !{white}${currentItems.join(", ")}`);
                 }
             }
         }
