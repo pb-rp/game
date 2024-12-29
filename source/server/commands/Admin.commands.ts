@@ -335,7 +335,7 @@ RAGERP.commands.add({
 
         targetplayer.showNotify(
             itemData ? RageShared.Enums.NotifyType.TYPE_SUCCESS : RageShared.Enums.NotifyType.TYPE_ERROR,
-            itemData ? `You received a ${itemData.name}` : `An error occurred giving u the item.`
+            itemData ? `You received a ${itemData.name}` : `An error occurred giving you the item.`
         );
         player.showNotify(
             itemData ? RageShared.Enums.NotifyType.TYPE_SUCCESS : RageShared.Enums.NotifyType.TYPE_ERROR,
