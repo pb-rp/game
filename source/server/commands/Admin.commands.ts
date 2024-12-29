@@ -420,7 +420,6 @@ RAGERP.commands.add({
 RAGERP.commands.add({
     name: "reports",
     adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_ONE,
-
     run: (player: PlayerMp) => {
         Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.YELLOW2}Active Reports:`)
         mp.players.forEach((targets) => {
@@ -431,3 +430,17 @@ RAGERP.commands.add({
         });
     }
 });
+
+RAGERP.commands.add({
+    name: "clearreports",
+    adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_THREE,
+    run: (player: PlayerMp) => {
+        mp.players.forEach((targets) => {
+            if(targets){
+                targets.setVariable("hasReport", null);
+            }
+        })
+
+        RAGERP.chat.sendAdminWarning(RageShared.Enums.HEXCOLORS.LIGHTRED, `AdmWarn: ${player.name} cleared the report list.`);
+    }
+})

@@ -35,6 +35,14 @@ RAGERP.commands.add({
 });
 
 RAGERP.commands.add({
+    name: "setweather",
+    adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_SIX,
+    run: (player: PlayerMp, fulltext: string) => {
+        mp.world.weather = fulltext;
+    }
+});
+
+RAGERP.commands.add({
     name: "sethealth",
     adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_SIX,
     run: (player: PlayerMp, fulltext, health) => {
