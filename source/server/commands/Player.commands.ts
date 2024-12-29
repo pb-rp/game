@@ -61,3 +61,21 @@ RAGERP.commands.add({
         RAGERP.chat.sendNearbyMessage(player.position, 20.0, `${player.getRoleplayName()} shouts: ${fulltext}!`);
     }
 });
+
+RAGERP.commands.add({
+    name: "report",
+    description: "Report someone or something",
+    run: (player: PlayerMp, fulltext: string) => {
+        Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.ORANGE}Your report was sent to all on duty admins.`);
+    
+        const admins = mp.players.toArray().filter((x) => x.character && x.character.adminlevel > 0);
+
+        admins.forEach((admin) => {
+            if(admin.getVariable("onAdminDuty")){
+                Chat.Message(admin, `!{#ffff00}[Report ${player.id}] ${player.name}: ${fulltext}`);
+            }
+        });
+
+        player.setVariable("hasReport", { report: fulltext });
+    }
+})

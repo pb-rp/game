@@ -50,7 +50,13 @@ const sendChatMessage = (player: PlayerMp, msg: string) => {
     if (msg.length <= 0) return;
 
     mp.players.forEachInRange(player.position, 15, (target) => {
-        const sendText = `${player.getRoleplayName()} says: ${msg}`;
+        let now = new Date(),
+        hours = (now.getHours() < 10 ? "0" : "") + now.getHours(),
+        minutes = (now.getMinutes() < 10 ? "0" : "") + now.getMinutes(),
+        seconds = (now.getSeconds() < 10 ? "0" : "") + now.getSeconds(),
+        time = hours + ":" + minutes + ":" + seconds;
+
+        const sendText = `[${time}] ${player.getRoleplayName()} says: ${msg}`;
         target.call("client::chat:newMessage", [sendText]);
     });
 };

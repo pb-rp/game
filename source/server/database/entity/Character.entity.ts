@@ -110,6 +110,7 @@ export class CharacterEntity {
         player.character.setStoreData(player, "wantedLevel", player.character.wantedLevel);
 
         player.setVariable("adminLevel", player.character.adminlevel);
+        player.setVariable("onAdminDuty", false);
 
         CefEvent.emit(player, "player", "setKeybindData", { I: "Open Inventory", ALT: "Interaction" });
 

@@ -75,12 +75,12 @@ RAGERP.commands.add({
         const adminCommandsByLevel: { [level: number]: string[] } = {};
 
         const adminLevels: { [key: number]: string } = {
-            1: `!{#${RageShared.Enums.HEXCOLORS.LIGHTGREEN}}[Admin Level 1]`,
-            2: `!{#${RageShared.Enums.HEXCOLORS.LIGHTGREEN}}[Admin Level 2]`,
-            3: `!{#${RageShared.Enums.HEXCOLORS.LIGHTGREEN}}[Admin Level 3]`,
-            4: `!{#${RageShared.Enums.HEXCOLORS.GREEN}}[Admin Level 4]`,
-            5: `!{#${RageShared.Enums.HEXCOLORS.GREEN}}[Admin Level 5]`,
-            6: `!{#${RageShared.Enums.HEXCOLORS.GREEN}}[Admin Level 6]`
+            1: `${RageShared.Enums.STRINGCOLORS.LIGHTGREEN}[Admin Level 1]`,
+            2: `${RageShared.Enums.STRINGCOLORS.LIGHTGREEN}[Admin Level 2]`,
+            3: `${RageShared.Enums.STRINGCOLORS.LIGHTGREEN}[Admin Level 3]`,
+            4: `${RageShared.Enums.STRINGCOLORS.GREEN}[Admin Level 4]`,
+            5: `${RageShared.Enums.STRINGCOLORS.GREEN}[Admin Level 5]`,
+            6: `${RageShared.Enums.STRINGCOLORS.GREEN}[Admin Level 6]`
         };
 
         RAGERP.commands
@@ -133,7 +133,11 @@ RAGERP.commands.add({
         Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.GREY}Online Admins:`);
         mp.players.forEach((target) => {
             if (target && target.character && target.character.adminlevel) {
-                Chat.Message(player, `(Level: ${target.character.adminlevel}) ${target.name} (${target.account?.username})`);
+                if(target.getVariable("onAdminDuty")){
+                    Chat.Message(player, `!{white}(Level: ${target.character.adminlevel}) ${target.name} (${target.account?.username}) | ${RageShared.Enums.STRINGCOLORS.DGREEN}Admin Duty: On`);
+                } else {
+                    Chat.Message(player, `!{white}(Level: ${target.character.adminlevel}) ${target.name} (${target.account?.username}) | ${RageShared.Enums.STRINGCOLORS.RED}Admin Duty: Off`);
+                }
             }
         });
     }
@@ -205,6 +209,27 @@ RAGERP.commands.add({
         RAGERP.commands.reloadCommands(targetPlayer);
     }
 });
+
+RAGERP.commands.add({
+    name: "adminduty",
+    aliases: ["aduty"],
+    adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_ONE,
+    description: "Get on admin duty",
+    run: (player: PlayerMp) => {
+        const adminDuty = player.getVariable("onAdminDuty");
+
+        if(!adminDuty){
+            player.setVariable("onAdminDuty", !adminDuty);
+
+            Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.DGREEN}You are now on admin duty.`);
+            return;
+        }
+
+        player.setVariable("onAdminDuty", !adminDuty);
+        Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.RED}You are now off admin duty.`);
+        return;
+    }
+})
 
 RAGERP.commands.add({
     name: "spectate",
@@ -369,5 +394,40 @@ RAGERP.commands.add({
             itemData ? RageShared.Enums.NotifyType.TYPE_SUCCESS : RageShared.Enums.NotifyType.TYPE_ERROR,
             itemData ? `You spawned a ${itemData.name} (x${itemData.count}) to ${targetplayer.name} (${targetplayer.id})` : `An error occurred giving the item.`
         );
+    }
+});
+
+RAGERP.commands.add({
+    name: "acceptreport",
+    aliases: ["ar"],
+    adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_ONE,
+    
+    run: (player: PlayerMp, target: string) => {
+        const targetplayer = mp.players.getPlayerByName(target);
+
+        if (targetplayer && mp.players.exists(targetplayer)) {
+            if(targetplayer.getVariable("hasReport")){
+                Chat.Message(player, `!{yellow}You accepted ${targetplayer.name}'s report.`);
+                Chat.Message(targetplayer, `${RageShared.Enums.STRINGCOLORS.ORANGE}Your report was accepted by ${player.name}.`);
+                targetplayer.setVariable("hasReport", null);
+            } else {
+                Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.LIGHTRED}This player does not have an active report!`);
+            }
+        } 
+    }
+})
+
+RAGERP.commands.add({
+    name: "reports",
+    adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_ONE,
+
+    run: (player: PlayerMp) => {
+        Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.YELLOW2}Active Reports:`)
+        mp.players.forEach((targets) => {
+            if(targets && targets.getVariable("hasReport")){
+                const parseReport = targets.getVariable("hasReport");
+                Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.GREY1}[Report ${targets.id}] ${targets.name} | Report: ${parseReport.report}`);
+            }
+        });
     }
 });
