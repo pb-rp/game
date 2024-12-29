@@ -3,6 +3,7 @@ import { CharacterEntity } from "@entities/Character.entity";
 import { inventoryAssets } from "@modules/inventory/Items.module";
 import { RageShared } from "@shared/index";
 import { adminTeleports } from "@assets/Admin.asset";
+import { Chat } from "@modules/Chat.module";
 
 RAGERP.commands.add({
     name: "goto",
@@ -13,7 +14,7 @@ RAGERP.commands.add({
             const keys = Object.keys(adminTeleports);
             for (let i = 0; i < keys.length; i += 8) {
                 const chunk = keys.slice(i, i + 8);
-                player.outputChatBox(`${RageShared.Enums.STRINGCOLORS.YELLOW}Available locations: ${RageShared.Enums.STRINGCOLORS.GREY} ${chunk.join(", ")}`);
+                Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.YELLOW}Available locations: ${RageShared.Enums.STRINGCOLORS.GREY} ${chunk.join(", ")}`);
             }
         };
 
@@ -95,7 +96,6 @@ RAGERP.commands.add({
                 adminCommandsByLevel[cmd.adminlevel].push(`/${cmd.name}`);
             });
 
-        player.outputChatBox("!{red}____________[ADMIN COMMANDS]____________");
         for (const level in adminCommandsByLevel) {
             if (adminCommandsByLevel.hasOwnProperty(level)) {
                 const commands = adminCommandsByLevel[level];
@@ -104,7 +104,7 @@ RAGERP.commands.add({
                     const endIndex = Math.min(i + itemsPerLog, commands.length);
                     const currentItems = commands.slice(i, endIndex);
 
-                    player.outputChatBox(`${adminLevels[level]}!{white}: ${currentItems.join(", ")}`);
+                    Chat.Message(player, `${adminLevels[level]}!: {white}${currentItems.join(", ")}`);
                 }
             }
         }
@@ -121,7 +121,7 @@ RAGERP.commands.add({
         const admins = mp.players.toArray().filter((x) => x.character && x.character.adminlevel > 0);
 
         admins.forEach((admin) => {
-            admin.outputChatBox(`!{#ffff00}[A] ${player.name}: ${fulltext}`);
+            Chat.Message(admin, `!{#ffff00}[A] ${player.name}: ${fulltext}`);
         });
     }
 });
@@ -130,10 +130,10 @@ RAGERP.commands.add({
     name: "admins",
     adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_ONE,
     run: (player: PlayerMp) => {
-        player.outputChatBox(`${RageShared.Enums.STRINGCOLORS.GREEN}____________[ONLINE ADMINS]____________`);
+        Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.GREY}Online Admins:`);
         mp.players.forEach((target) => {
             if (target && target.character && target.character.adminlevel) {
-                player.outputChatBox(`${target.name} as level ${target.character.adminlevel} admin.`);
+                Chat.Message(player, `(Level: ${target.character.adminlevel}) ${target.name} (${target.account?.username})`);
             }
         });
     }
@@ -212,7 +212,7 @@ RAGERP.commands.add({
     adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_ONE,
     description: "Spectate a player",
     run: (player: PlayerMp, fullText: string, target) => {
-        if (fullText.length === 0) return player.outputChatBox("Usage: /spectate [target/off]");
+        if (fullText.length === 0) return RAGERP.chat.sendSyntaxError(player, "/spectate [target/off]");
 
         const parsedTarget = parseInt(target);
 
@@ -226,7 +226,7 @@ RAGERP.commands.add({
         const targetPlayer = mp.players.at(parsedTarget);
         if (!targetPlayer || !mp.players.exists(targetPlayer)) return;
 
-        if (targetPlayer.id === player.id) return player.outputChatBox("You can't spectate yourself.");
+        if (targetPlayer.id === player.id) return Chat.Message(player, "!{red}Error: You can't spectate yourself.");
 
         if (!player || !mp.players.exists(player)) return;
 
@@ -267,10 +267,10 @@ RAGERP.commands.add({
     adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_ONE,
     description: "Revive a player",
     run: async (player: PlayerMp, fulltext: string, target: string) => {
-        if (!fulltext.length || !target.length) return player.outputChatBox("Usage: /revive [targetplayer]");
+        if (!fulltext.length || !target.length) return RAGERP.chat.sendSyntaxError(player, "Usage: /revive [targetplayer]");
 
         const parseTarget = parseInt(target);
-        if (isNaN(parseTarget)) return player.outputChatBox("Usage: /revive [targetplayer]");
+        if (isNaN(parseTarget)) return RAGERP.chat.sendSyntaxError(player, "Usage: /revive [targetplayer]");
 
         const targetPlayer = mp.players.getPlayerByName(target);
 
@@ -317,8 +317,8 @@ RAGERP.commands.add({
     adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_SIX,
     run: (player: PlayerMp, fulltext: string, target: string, item: RageShared.Inventory.Enums.ITEM_TYPES, comp: string, drawable: string, texture: string) => {
         if (!fulltext.length || !target.length || !item.length || !comp.length || !drawable.length || !texture.length) {
-            player.outputChatBox(`Usage: /giveclothes [player] [cloth_name] [component] [drawable] [texture]`);
-            player.outputChatBox(
+            RAGERP.chat.sendSyntaxError(player, `Usage: /giveclothes [player] [cloth_name] [component] [drawable] [texture]`);
+            Chat.Message(player,
                 `Clothing Names: ${Object.values(inventoryAssets.items)
                     .filter((x) => x.typeCategory === RageShared.Inventory.Enums.ITEM_TYPE_CATEGORY.TYPE_CLOTHING)
                     .map((e) => e.type.toLowerCase())
@@ -348,7 +348,7 @@ RAGERP.commands.add({
     name: "giveitem",
     adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_SIX,
     run: (player: PlayerMp, fulltext: string, target: string, item: RageShared.Inventory.Enums.ITEM_TYPES, count: string) => {
-        if (!fulltext.length || !target.length || !item.length) return player.outputChatBox("Usage: /giveitem [player] [item type] [count]");
+        if (!fulltext.length || !target.length || !item.length) return RAGERP.chat.sendSyntaxError(player, "/giveitem [player] [item type] [count]");
 
         const targetplayer = mp.players.getPlayerByName(target);
 

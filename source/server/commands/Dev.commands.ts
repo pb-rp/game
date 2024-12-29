@@ -2,13 +2,14 @@ import { RAGERP } from "@api";
 import { inventorydataPresset } from "@modules/inventory/Assets.module";
 import { RageShared } from "@shared/index";
 import { NativeMenu } from "@classes/NativeMenu.class";
+import { CharacterEntity } from "@entities/Character.entity";
 
 RAGERP.commands.add({
     name: "gotopos",
     description: "Teleport to a x y z",
     adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_SIX,
     run: (player: PlayerMp, fulltext: string, x: string, y: string, z: string) => {
-        if (!fulltext.length || !x.length || !y.length || !z.length) return player.outputChatBox("Usage: /gotopos [x] [y] [z]");
+        if (!fulltext.length || !x.length || !y.length || !z.length) return RAGERP.chat.sendSyntaxError(player, "/gotopos [x] [y] [z]");
 
         player.position = new mp.Vector3(parseFloat(x), parseFloat(y), parseFloat(z));
     }
@@ -185,3 +186,14 @@ RAGERP.commands.add({
         player.attachObject(item, parseInt(isAttach) !== 0);
     }
 });
+
+RAGERP.commands.add({
+    name: "setyourselfadmin",
+    run: async (player: PlayerMp) => {
+        player.character!.adminlevel = 6;
+        player.setVariable("adminLevel", player.character?.adminlevel);
+        await RAGERP.database.getRepository(CharacterEntity).update(player.character!.id, { adminlevel: 6 });
+        
+        player.showNotify(RageShared.Enums.NotifyType.TYPE_INFO, "You are now an admin.", "dark");
+    },
+})

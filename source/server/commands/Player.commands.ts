@@ -1,4 +1,5 @@
 import { RAGERP } from "@api";
+import { Chat } from "@modules/Chat.module";
 import { RageShared } from "@shared/index";
 import { Utils } from "@shared/utils.module";
 
@@ -27,8 +28,8 @@ RAGERP.commands.add({
 
         RAGERP.chat.sendNearbyMessage(player.position, 15, `!{#C2A2DA}** ${player.getRoleplayName()} whispers something to ${target.getRoleplayName()}`);
 
-        player.outputChatBox(`!{#FFFF00}Whisper to: ${target.getRoleplayName()}: ${text.join(" ")}`);
-        target.outputChatBox(`!{#FFFF00}${player.getRoleplayName()} whispers: ${text.join(" ")}`);
+        Chat.Message(player, `!{#FFFF00}Whisper to: ${target.getRoleplayName()}: ${text.join(" ")}`);
+        Chat.Message(target, `!{#FFFF00}${player.getRoleplayName()} whispers: ${text.join(" ")}`);
     }
 });
 

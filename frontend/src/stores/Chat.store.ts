@@ -45,8 +45,8 @@ class _ChatStore {
 
     settings: IChatSettings = observable.object({
         background: false,
-        fontsize: 1.48888889,
-        timestamp: false
+        fontsize: 1.675,
+        timestamp: true
     });
 
     constructor() {

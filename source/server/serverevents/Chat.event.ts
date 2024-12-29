@@ -13,9 +13,7 @@ const invokeCommand = async (player: PlayerMp, message: string) => {
     // Check if command exists
     const command = CommandRegistry.find(name);
     if (!command) {
-        if (CommandRegistry.notFoundMessageEnabled) {
-            CommandRegistry.commandNotFound(player, name);
-        }
+        player.showNotify(RageShared.Enums.NotifyType.TYPE_ERROR, "Command does not exist!", "dark");
         return;
     }
 

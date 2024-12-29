@@ -7,6 +7,7 @@ import { AccountEntity } from "./Account.entity";
 import { setPlayerToInjuredState } from "@events/Death.event";
 import { RageShared } from "@shared/index";
 import { BankAccountEntity } from "@entities/Bank.entity";
+import { Chat } from "@modules/Chat.module";
 
 @Entity({ name: "characters" })
 export class CharacterEntity {
@@ -120,15 +121,28 @@ export class CharacterEntity {
         if (player.character.deathState === RageShared.Players.Enums.DEATH_STATES.STATE_INJURED) {
             setPlayerToInjuredState(player);
         }
-        player.outputChatBox(`Welcome to !{green}Paleto Bay Roleplay!{white} ${player.name}!`);
+        Chat.Message(player, `!{yellow}Welcome ${player.name} to Paleto Bay Roleplay.`);
         if (player.character.adminlevel) {
-            player.outputChatBox(`>>> You are logged in as !{green}LEVEL ${player.character.adminlevel}!{white} admin!`);
+            Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.LIGHTGREEN}SERVER: You logged in as a level ${player.character.adminlevel} admin.`);
         }
 
         player.character.setStoreData(player, "cash", player.character.cash);
 
-        !player.character.lastlogin ? (player.character.lastlogin = new Date()) : player.outputChatBox(`Your last login was on ${player.character.lastlogin}`);
-
+        if (!player.character.lastlogin) {
+            player.character.lastlogin = new Date();
+          } else {
+            const formattedLastLogin = player.character.lastlogin.toLocaleString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: true,
+            });
+            Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.GREY3}Your last login was on ${formattedLastLogin}.`);
+          }
+          
         player.character.lastlogin = new Date();
         CommandRegistry.reloadCommands(player);
     }

@@ -58,10 +58,10 @@ const Chat: FC<{ store: typeof chatStore; isVisible: boolean }> = ({ store, isVi
                 setChatOpacity((prevOpacity) => {
                     const newOpacity = prevOpacity - 0.1;
                     if (newOpacity > 0.6) {
-                        return newOpacity;
+                        return 1;
                     } else {
                         clearInterval(chatFadeInterval!);
-                        return 0.6;
+                        return 1;
                     }
                 });
             }, 20);

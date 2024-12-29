@@ -9,7 +9,7 @@ export const Chat = {
      * @returns {void}
      */
     sendSyntaxError(player: PlayerMp, message: string): void {
-        return player.outputChatBox(`!{#FF6347}Usage:!{#ffffff} ${message}`);
+        return Chat.Message(player, `!{#FF6347}Usage:!{#ffffff} ${message}`);
     },
 
     /**
@@ -22,7 +22,7 @@ export const Chat = {
      */
     sendNearbyMessage(position: Vector3, range: number, message: string): void {
         mp.players.forEachInRange(position, range, (player: PlayerMp) => {
-            if (player.getVariable("loggedin")) player.outputChatBox(message);
+            if (player.getVariable("loggedin")) Chat.Message(player, message);
         });
     },
 
@@ -38,7 +38,31 @@ export const Chat = {
         const players = mp.players.toArray().filter((x) => x.character && x.character.adminlevel >= level);
         const padColor = color.toString(16).toUpperCase().padStart(8, "0").slice(0, -2);
         players.forEach((player) => {
-            player.outputChatBox(`!{#${padColor}}${message}`);
+            Chat.Message(player, `!{#${padColor}}${message}`);
         });
+    },
+
+    Message(player: PlayerMp, message: string){
+        // Regex to match both named colors (e.g., !{yellow}) and hex colors (e.g., !{#FFFF00})
+        let colorMatch = message.match(/!\{([a-zA-Z#0-9]+)\}/);
+    
+        // Default color (if no color found, can be adjusted)
+        let color = "";
+    
+        if (colorMatch) {
+            color = colorMatch[1]; // Extracted color (could be name or hex)
+            message = message.replace(colorMatch[0], ""); // Remove the color part from the message
+        }
+    
+        let now = new Date(),
+            hours = (now.getHours() < 10 ? "0" : "") + now.getHours(),
+            minutes = (now.getMinutes() < 10 ? "0" : "") + now.getMinutes(),
+            seconds = (now.getSeconds() < 10 ? "0" : "") + now.getSeconds(),
+            time = hours + ":" + minutes + ":" + seconds;
+    
+        // Apply the color in the output (adjust depending on how your chat system handles colors)
+        player.outputChatBox(`!{${color}}[${time}] ${message}`);
     }
+    
+    
 };
