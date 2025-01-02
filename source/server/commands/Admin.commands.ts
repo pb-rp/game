@@ -403,6 +403,7 @@ RAGERP.commands.add({
     adminlevel: RageShared.Enums.ADMIN_LEVELS.LEVEL_ONE,
     
     run: (player: PlayerMp, target: string) => {
+        if(!target.length) return RAGERP.chat.sendSyntaxError(player, "/acceptreport [player]");
         const targetplayer = mp.players.getPlayerByName(target);
 
         if (targetplayer && mp.players.exists(targetplayer)) {

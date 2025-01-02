@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 .main {
     position: absolute;
     top: 0;
@@ -26,19 +28,20 @@
         .timestamp {
             margin: 0 .3vh 0 0;
             width: 100%;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: "Mulish", serif;
+            font-weight: 500;
             color: #28272b;
             font-size: 1.675vh;
             line-height: 2.222222222222222vh;
             word-wrap: break-word;
-            font-weight: bold;
             border-radius: .5vh;
             padding: .2vh;
         }
 
         .message {
             width: 90%;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: "Roboto", serif;
+            font-weight: 600;        
             color: #fff;
             font-size: 1.675vh;
             line-height: 2.222222222222222vh;

@@ -30,6 +30,8 @@ import "@events/Death.event";
 import "@events/Vehicle.event";
 import "@events/Point.event";
 //---------------------------------------//
+import "@modules/Payday.module";
+//---------------------------------------//
 import { blue, green, yellow } from "colorette";
 import { v4 } from "uuid";
 //---------------------------------------//

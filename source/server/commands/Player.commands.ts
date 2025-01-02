@@ -66,6 +66,8 @@ RAGERP.commands.add({
     name: "report",
     description: "Report someone or something",
     run: (player: PlayerMp, fulltext: string) => {
+        if (!fulltext.length) return RAGERP.chat.sendSyntaxError(player, "/report [text]");
+
         Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.ORANGE}Your report was sent to all on duty admins.`);
     
         const admins = mp.players.toArray().filter((x) => x.character && x.character.adminlevel > 0);
@@ -97,5 +99,16 @@ RAGERP.commands.add({
 
           Chat.Message(player, `${RageShared.Enums.STRINGCOLORS.NAVYBLUE}(Date and Time): ${formattedTime}.`);
 
+    }
+})
+
+RAGERP.commands.add({
+    name: "clearchat",
+    aliases: [ "cc" ],
+    
+    run: (player: PlayerMp) => {
+        for(let i = 0; i<25; i++){
+            Chat.Message(player, " ");
+        }
     }
 })
